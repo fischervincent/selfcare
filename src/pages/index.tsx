@@ -27,10 +27,7 @@ const Home: NextPage = () => {
         </div>
         <div className="flex-1">
           {sessionData && (
-            <Link
-              className="rounded-full bg-black/10 px-10 py-3 font-semibold no-underline transition hover:bg-black/20"
-              href="./newTodo"
-            >
+            <Link className="btn-outline btn" href="./newTodo">
               Create todo list for the day
             </Link>
           )}
@@ -51,7 +48,7 @@ const AuthShowcase: React.FC = () => {
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
       </p>
       <button
-        className="rounded-full bg-black/10 px-10 py-3 font-semibold no-underline transition hover:bg-black/20"
+        className="btn-outline btn"
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Sign in"}
