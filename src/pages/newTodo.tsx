@@ -102,7 +102,6 @@ const NewTodoPage: NextPage = () => {
                     setTodos(todos.filter((todo) => todo.viewId !== viewId));
                   }}
                   onBlur={(val) => {
-                    console.log({ val });
                     setTodos(
                       todos.map((todo) =>
                         todo.viewId === viewId ? { ...todo, text: val } : todo
