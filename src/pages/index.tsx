@@ -3,10 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-import { api } from "../utils/api";
-
 const Home: NextPage = () => {
-  const hello = api.todo.hello.useQuery({ text: "from tRPC" });
   const { data: sessionData } = useSession();
 
   return (
@@ -16,12 +13,9 @@ const Home: NextPage = () => {
         <meta name="description" content="Daily selfcare" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="items-left flex min-h-screen flex-col justify-between p-4">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-            </p>
             <AuthShowcase />
           </div>
         </div>

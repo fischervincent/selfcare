@@ -12,13 +12,7 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url                  = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
-}
-
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    relationMode         = "prisma"
 }
 
 // Necessary for Next auth
@@ -56,6 +50,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    todoLists     TodoList[]
+    todoItems     TodoItem[]
 }
 
 model VerificationToken {
@@ -64,4 +60,28 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model TodoList {
+    id        String   @id @default(cuid())
+    day       DateTime @unique @db.Date
+    userId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    todoItems TodoItem[]
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    @@index([userId])
+}
+
+model TodoItem {
+    id         String   @id @default(cuid())
+    text       String
+    todoListId String
+    userId     String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    todoList   TodoList @relation(fields: [todoListId], references: [id], onDelete: Cascade)
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    @@index([userId])
+    @@index([todoListId])
 }
