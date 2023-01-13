@@ -2,9 +2,42 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { api } from "../utils/api";
+import { useMemo } from "react";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
+  const today = useMemo(() => new Date(), []);
+  const todosOfTheDay = api.todo.getByToday.useQuery({
+    date: today,
+  });
+
+  const TodoContent = () => {
+    if (!sessionData) {
+      return <></>;
+    }
+    if (todosOfTheDay.isLoading) return <p>Loading...</p>;
+    if (todosOfTheDay?.data?.todoItems) {
+      return (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl">To do today</h1>
+          <ul className="flex flex-col gap-2">
+            {todosOfTheDay?.data?.todoItems.map((todo) => (
+              <li key={todo.id}>{todo.text}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    return (
+      <>
+        <p>Nothing to do today?</p>
+        <Link className="btn-outline btn" href="./newTodo">
+          Create todo list for the day
+        </Link>
+      </>
+    );
+  };
 
   return (
     <>
@@ -20,11 +53,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="flex-1">
-          {sessionData && (
-            <Link className="btn-outline btn" href="./newTodo">
-              Create todo list for the day
-            </Link>
-          )}
+          <TodoContent />
         </div>
       </main>
     </>
