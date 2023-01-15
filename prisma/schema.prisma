@@ -53,6 +53,7 @@ model User {
     todoLists     TodoList[]
     todoItems     TodoItem[]
     questions     SurveyQuestion[]
+    answers       SurveyAnswer[]
 }
 
 model VerificationToken {
@@ -103,4 +104,19 @@ model SurveyQuestion {
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     answers    SurveyAnswer[]
     @@index([userId])
+}
+
+model SurveyAnswer {
+    id         String           @id @default(cuid())
+    day        String
+    answer     Int
+    userId     String
+    questionId String
+    createdAt  DateTime         @default(now())
+    updatedAt  DateTime         @updatedAt
+    user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    question   SurveyQuestion   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+    @@index([day, userId])
+    @@index([userId])
+    @@index([questionId])
 }

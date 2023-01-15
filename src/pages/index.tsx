@@ -34,7 +34,7 @@ const Home: NextPage = () => {
               <Link className="btn-outline btn" href="./customizeSurvey">
                 Customize your evening survey
               </Link>
-              <Link className="btn-outline btn" href="./evening">
+              <Link className="btn-outline btn" href="./answerSurvey">
                 Answer end of the day questions
               </Link>
             </div>
