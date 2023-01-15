@@ -19,13 +19,26 @@ const Home: NextPage = () => {
     if (todosOfTheDay.isLoading) return <p>Loading...</p>;
     if (todosOfTheDay?.data?.todoItems) {
       return (
-        <div className="flex flex-col gap-4">
-          <h1 className="text-3xl">To do today</h1>
-          <ul className="flex flex-col gap-2">
-            {todosOfTheDay?.data?.todoItems.map((todo) => (
-              <li key={todo.id}>{todo.text}</li>
-            ))}
-          </ul>
+        <div className="flex flex-col gap-8">
+          <div>
+            <h1 className="pb-4 text-3xl">To do today</h1>
+            <ul className="flex flex-col gap-2">
+              {todosOfTheDay?.data?.todoItems.map((todo) => (
+                <li key={todo.id}>{todo.text}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="flex flex-col gap-4">
+              <h1 className="text-3xl">Evening</h1>
+              <Link className="btn-outline btn" href="./customizeSurvey">
+                Customize your evening survey
+              </Link>
+              <Link className="btn-outline btn" href="./evening">
+                Answer end of the day questions
+              </Link>
+            </div>
+          </div>
         </div>
       );
     }

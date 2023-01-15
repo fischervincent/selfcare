@@ -52,6 +52,7 @@ model User {
     sessions      Session[]
     todoLists     TodoList[]
     todoItems     TodoItem[]
+    questions     SurveyQuestion[]
 }
 
 model VerificationToken {
@@ -84,4 +85,22 @@ model TodoItem {
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     @@index([userId])
     @@index([todoListId])
+}
+
+enum QuestionType {
+  YES_NO
+  ONE_TO_FIVE
+}
+
+model SurveyQuestion {
+    id         String   @id @default(cuid())
+    title      String
+    text       String
+    type       QuestionType
+    userId     String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    answers    SurveyAnswer[]
+    @@index([userId])
 }
